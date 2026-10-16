@@ -19,6 +19,7 @@ export default function EmployeeDetailsModal({ employee, onClose, onEdit }) {
     ['Role', employee.role],
     ['Status', <StatusBadge key="status" status={employee.employment_status} />],
     ['Google Sign-in', employee.has_google ? 'Linked' : 'Not linked'],
+    ['Facebook Sign-in', employee.has_facebook ? 'Linked' : 'Not linked'],
   ]
 
   return (

@@ -6,24 +6,31 @@ import { FormAlert, TextField } from '../../components/form/FormFields'
 import { homePathFor, useAuth } from '../../context/AuthContext'
 import useForm from '../../hooks/useForm'
 
+const SOCIAL_PROVIDERS = [
+  { key: 'google', label: 'Google', icon: 'bi-google' },
+  { key: 'facebook', label: 'Facebook', icon: 'bi-facebook' },
+]
+
 export default function LoginPage() {
   const { login, notice } = useAuth()
   const navigate = useNavigate()
   const location = useLocation()
-  const [googleEnabled, setGoogleEnabled] = useState(false)
+  const [enabledProviders, setEnabledProviders] = useState({})
   const { values, errors, message, submitting, handleChange, submit, setMessage } = useForm({ username: '', password: '' })
 
   useEffect(() => {
     authApi
       .providers()
-      .then((providers) => setGoogleEnabled(providers.google))
-      .catch(() => setGoogleEnabled(false))
+      .then((providers) => setEnabledProviders(providers ?? {}))
+      .catch(() => setEnabledProviders({}))
   }, [])
 
   useEffect(() => {
     const error = location.state?.error ?? notice
     if (error) setMessage({ type: 'warning', text: error })
   }, [location.state, notice, setMessage])
+
+  const socialProviders = SOCIAL_PROVIDERS.filter((provider) => enabledProviders[provider.key])
 
   const handleSubmit = async (event) => {
     event.preventDefault()
@@ -83,12 +90,20 @@ export default function LoginPage() {
             </button>
           </form>
 
-          {googleEnabled && (
+          {socialProviders.length > 0 && (
             <>
               <div className="auth-divider">or</div>
-              <a href={`${API_URL}/auth/google/redirect`} className="btn btn-google w-100">
-                <i className="bi bi-google" /> Sign in with Google
-              </a>
+              <div className="d-grid gap-2">
+                {socialProviders.map((provider) => (
+                  <a
+                    key={provider.key}
+                    href={`${API_URL}/auth/${provider.key}/redirect`}
+                    className={`btn btn-${provider.key} w-100`}
+                  >
+                    <i className={`bi ${provider.icon}`} /> Sign in with {provider.label}
+                  </a>
+                ))}
+              </div>
             </>
           )}
 

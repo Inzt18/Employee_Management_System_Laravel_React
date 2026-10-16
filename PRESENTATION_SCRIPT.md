@@ -97,7 +97,7 @@ All four request types share the same approval behavior, so instead of copying c
 
 All endpoints are in `routes/api.php`, organized into three groups:
 
-- **Public** — register, login, Google login, and dropdown options.
+- **Public** — register, login, Google and Facebook login, and dropdown options.
 - **Employee** (`/api/me/...`) — dashboard, schedule, tasks, and submitting requests.
 - **Admin** (`/api/admin/...`) — managing employees, subjects, assignments, tasks, and reviewing requests.
 
@@ -132,9 +132,9 @@ Security layers:
 - **`AttachmentPolicy`** — uploaded documents are stored **privately**, not in a public folder. Only the admin and the employee who uploaded a file can open it.
 - An admin **cannot delete, demote, or deactivate their own account**, so the system is never left without an admin.
 
-*Show: `app/Http/Controllers/Api/Auth/GoogleAuthController.php`.*
+*Show: `app/Http/Controllers/Api/Auth/SocialAuthController.php`.*
 
-For the bonus, we added **Google login** using **Laravel Socialite**. If an employee's Google email matches an existing account, it is linked automatically. The Google button only appears when the Google credentials are configured.
+For the bonus, we added **Google and Facebook login** using **Laravel Socialite**. One `SocialAuthController` handles both providers through the routes `/api/auth/{provider}/redirect` and `/api/auth/{provider}/callback`. If the email on an employee's Google or Facebook account matches an existing employee account, the two are linked automatically. If a Facebook account has no email to share, Laravel can still recognize the employee by the **Facebook ID** saved in the `facebook_id` column, and after the first login the ID is remembered so matching no longer depends on email. Each button only appears on the login page when that provider's credentials are configured, and the admin's employee details window shows which accounts are linked.
 
 ### 3.6 Services and API Resources
 
@@ -153,7 +153,7 @@ Business logic that is too big for a controller lives in **service classes**:
 
 *Show: run `php artisan test` in the terminal.*
 
-We wrote **28 automated feature tests** using PHPUnit. They cover login, registration, role protection, file uploads, validation, approving and rejecting requests, and admin safeguards. All of them pass.
+We wrote **35 automated feature tests** using PHPUnit. They cover login, registration, role protection, file uploads, validation, approving and rejecting requests, admin safeguards, and Google and Facebook login. All of them pass.
 
 ---
 
@@ -246,7 +246,7 @@ Instead of repeating HTML, we built shared components: `DataTable`, `Modal`, `Co
 ## 6. Feature Enhancements over the Native PHP Version (≈1 min)
 
 - REST API architecture separating the back end and front end
-- Token authentication with Laravel Sanctum, plus optional **Google login**
+- Token authentication with Laravel Sanctum, plus optional **Google and Facebook login**
 - Old plain-text passwords are now **hashed**
 - Login rate limiting, role middleware, and protection for deactivated accounts
 - Leave proof documents that depend on the leave type, with an **in-app document preview** for admins
@@ -255,7 +255,7 @@ Instead of repeating HTML, we built shared components: `DataTable`, `Modal`, `Co
 - Search and status filters on lists
 - Database transactions for approvals and file uploads
 - A command that imports our old database into the new system
-- 28 automated tests
+- 35 automated tests
 
 ---
 
