@@ -134,7 +134,7 @@ Security layers:
 
 *Show: `app/Http/Controllers/Api/Auth/SocialAuthController.php`.*
 
-For the bonus, we added **Google and Facebook login** using **Laravel Socialite**. One `SocialAuthController` handles both providers through the routes `/api/auth/{provider}/redirect` and `/api/auth/{provider}/callback`. If the email on an employee's Google or Facebook account matches an existing employee account, the two are linked automatically. Each button only appears on the login page when that provider's credentials are configured, and the admin's employee details window shows which accounts are linked.
+For the bonus, we added **Google and Facebook login** using **Laravel Socialite**. One `SocialAuthController` handles both providers through the routes `/api/auth/{provider}/redirect` and `/api/auth/{provider}/callback`. If the email on an employee's Google or Facebook account matches an existing employee account, the two are linked automatically. If a Facebook account has no email to share, Laravel can still recognize the employee by the **Facebook ID** saved in the `facebook_id` column, and after the first login the ID is remembered so matching no longer depends on email. Each button only appears on the login page when that provider's credentials are configured, and the admin's employee details window shows which accounts are linked.
 
 ### 3.6 Services and API Resources
 
@@ -153,7 +153,7 @@ Business logic that is too big for a controller lives in **service classes**:
 
 *Show: run `php artisan test` in the terminal.*
 
-We wrote **28 automated feature tests** using PHPUnit. They cover login, registration, role protection, file uploads, validation, approving and rejecting requests, and admin safeguards. All of them pass.
+We wrote **35 automated feature tests** using PHPUnit. They cover login, registration, role protection, file uploads, validation, approving and rejecting requests, admin safeguards, and Google and Facebook login. All of them pass.
 
 ---
 
@@ -255,7 +255,7 @@ Instead of repeating HTML, we built shared components: `DataTable`, `Modal`, `Co
 - Search and status filters on lists
 - Database transactions for approvals and file uploads
 - A command that imports our old database into the new system
-- 28 automated tests
+- 35 automated tests
 
 ---
 
