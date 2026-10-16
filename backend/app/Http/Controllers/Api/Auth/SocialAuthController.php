@@ -61,7 +61,10 @@ class SocialAuthController extends Controller
 
         try {
             $socialUser = Socialite::driver($provider)->stateless()->user();
-        } catch (Throwable) {
+        } catch (Throwable $exception) {
+            // Keep the real cause in storage/logs/laravel.log (SSL, wrong secret, redirect mismatch...).
+            report($exception);
+
             return $this->toFrontend(['error' => "{$label} sign-in was cancelled or failed. Please try again."]);
         }
 
