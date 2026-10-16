@@ -29,6 +29,7 @@ class EmployeeResource extends JsonResource
             'employment_status' => $this->employment_status->value,
             'avatar_url' => $this->avatar_url,
             'has_google' => $this->google_id !== null,
+            'has_facebook' => $this->facebook_id !== null,
             'created_at' => $this->created_at?->toIso8601String(),
         ];
     }

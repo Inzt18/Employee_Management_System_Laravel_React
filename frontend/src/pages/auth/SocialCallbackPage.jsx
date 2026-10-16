@@ -4,9 +4,9 @@ import Spinner from '../../components/Spinner'
 import { homePathFor, useAuth } from '../../context/AuthContext'
 
 /**
- * Landing page after Google sign-in. The API puts either #token=... or #error=... in the URL fragment.
+ * Landing page after Google or Facebook sign-in. The API puts either #token=... or #error=... in the URL fragment.
  */
-export default function GoogleCallbackPage() {
+export default function SocialCallbackPage() {
   const { acceptToken } = useAuth()
   const navigate = useNavigate()
   const handled = useRef(false)
@@ -20,14 +20,14 @@ export default function GoogleCallbackPage() {
 
     const token = params.get('token')
     if (!token) {
-      navigate('/login', { replace: true, state: { error: params.get('error') || 'Google sign-in failed.' } })
+      navigate('/login', { replace: true, state: { error: params.get('error') || 'Sign-in failed. Please try again.' } })
       return
     }
 
     acceptToken(token)
       .then((user) => navigate(homePathFor(user), { replace: true }))
-      .catch(() => navigate('/login', { replace: true, state: { error: 'Google sign-in failed. Please try again.' } }))
+      .catch(() => navigate('/login', { replace: true, state: { error: 'Sign-in failed. Please try again.' } }))
   }, [acceptToken, navigate])
 
-  return <Spinner fullPage label="Signing you in with Google..." />
+  return <Spinner fullPage label="Signing you in..." />
 }

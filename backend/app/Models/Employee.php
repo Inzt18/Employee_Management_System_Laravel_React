@@ -42,6 +42,7 @@ class Employee extends Authenticatable
         'role',
         'employment_status',
         'google_id',
+        'facebook_id',
         'avatar_url',
     ];
 
@@ -49,6 +50,7 @@ class Employee extends Authenticatable
         'password',
         'remember_token',
         'google_id',
+        'facebook_id',
     ];
 
     protected function casts(): array

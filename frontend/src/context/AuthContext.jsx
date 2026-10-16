@@ -16,7 +16,7 @@ export function AuthProvider({ children }) {
   }, [])
 
   /**
-   * Stores a token (from login, register or Google) and loads the profile.
+   * Stores a token (from login, register, Google or Facebook) and loads the profile.
    */
   const acceptToken = useCallback(async (token, employee = null) => {
     tokenStorage.set(token)

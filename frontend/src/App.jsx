@@ -10,7 +10,7 @@ import EmployeesPage from './pages/admin/EmployeesPage'
 import EmployeeTasksPage from './pages/admin/EmployeeTasksPage'
 import RequestsPage from './pages/admin/RequestsPage'
 import SubjectsPage from './pages/admin/SubjectsPage'
-import GoogleCallbackPage from './pages/auth/GoogleCallbackPage'
+import SocialCallbackPage from './pages/auth/SocialCallbackPage'
 import LoginPage from './pages/auth/LoginPage'
 import RegisterPage from './pages/auth/RegisterPage'
 import DashboardPage from './pages/employee/DashboardPage'
@@ -30,7 +30,7 @@ export default function App() {
   return (
     <Routes>
       <Route path="/" element={<HomeRedirect />} />
-      <Route path="/auth/callback" element={<GoogleCallbackPage />} />
+      <Route path="/auth/callback" element={<SocialCallbackPage />} />
 
       <Route element={<GuestRoute />}>
         <Route path="/login" element={<LoginPage />} />

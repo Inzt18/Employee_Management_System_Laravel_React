@@ -377,6 +377,15 @@ textarea.form-control { min-height: 96px; }
 
 .btn-google:hover { background: #f8fbfe; border-color: var(--brand); }
 
+.btn-facebook {
+  background: #1877f2;
+  border: 1px solid #1877f2;
+  color: #fff;
+}
+
+.btn-facebook:hover,
+.btn-facebook:focus { background: #166fe5; border-color: #166fe5; color: #fff; }
+
 .attachment-box {
   background: #f8fbfe;
   border: 1px dashed #c5d7e8;

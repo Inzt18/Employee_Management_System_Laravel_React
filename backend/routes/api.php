@@ -4,7 +4,7 @@ use App\Enums\Role;
 use App\Http\Controllers\Api\Admin;
 use App\Http\Controllers\Api\AttachmentController;
 use App\Http\Controllers\Api\Auth\AuthController;
-use App\Http\Controllers\Api\Auth\GoogleAuthController;
+use App\Http\Controllers\Api\Auth\SocialAuthController;
 use App\Http\Controllers\Api\Employee;
 use App\Http\Controllers\Api\OptionsController;
 use App\Support\RequestRegistry;
@@ -19,9 +19,12 @@ Route::prefix('auth')->group(function () {
     Route::post('register', [AuthController::class, 'register'])->middleware('throttle:10,1');
     Route::post('login', [AuthController::class, 'login'])->middleware('throttle:10,1');
 
-    Route::get('providers', [GoogleAuthController::class, 'providers']);
-    Route::get('google/redirect', [GoogleAuthController::class, 'redirect']);
-    Route::get('google/callback', [GoogleAuthController::class, 'callback']);
+    // Social login (Google and Facebook)
+    Route::get('providers', [SocialAuthController::class, 'providers']);
+    Route::get('{provider}/redirect', [SocialAuthController::class, 'redirect'])
+        ->whereIn('provider', array_keys(SocialAuthController::PROVIDERS));
+    Route::get('{provider}/callback', [SocialAuthController::class, 'callback'])
+        ->whereIn('provider', array_keys(SocialAuthController::PROVIDERS));
 });
 
 Route::get('options', OptionsController::class);
